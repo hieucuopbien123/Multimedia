@@ -1,0 +1,477 @@
+Multimedia:
+=> ref tới "Slides"
+
+
+
+# Introduction:
+Hệ thống VOD(Video On Demand) là hệ thống xem video theo yêu cầu, nó cho phép người dùng lựa chọn và xem video từ một thư viện được cung cấp sẵn mà không cần phải theo một lịch trình cụ thể. Trước khi có công nghệ VOD, người dùng thường phải đợi các chương trình phát sóng trên truyền hình theo lịch trình đã được định sẵn. Với hệ thống VOD, người dùng có thể tự do chọn xem video mà họ muốn, vào bất kỳ thời điểm nào và từ bất kỳ thiết bị nào có kết nối internet. 
+VD: Netflix, Amazon Prime Video,...
+Hệ thống VOD thường sử dụng các công nghệ khác nhau để đảm bảo việc phát video mượt mà và mang lại trải nghiệm tốt cho người dùng. Điều này bao gồm việc sử dụng streaming tùy chỉnh, điều chỉnh chất lượng video dựa trên tốc độ kết nối internet của người dùng và mạng phân phối nội dung (CDN), phân phối nội dung video qua nhiều máy chủ khác nhau nhằm giảm thiểu hiện tượng đệm và độ trễ.
+
+Phía server có nhiều loại như authentication server, media server, streaming server, web server. 
+Streaming server là loại máy chủ phát trực tiếp nội dung trực tuyến như video, âm thanh tới client. Dùng phát sóng trực tiếp đến thiết bị người dùng để nghe nhạc, xem phim, chơi game. Cơ chế tự động của nó sẽ tự điều chỉnh tốc độ dựa trên speed kết nối internet của người dùng, hỗ trợ phát từ nhiều nguồn, quản lý nhiều người đồng thời kết nối. Nó gửi dữ liệu tơi user qua HTTP or RTMP(real time messaging protocol).
+Tức khi ta xem youtube hay video trên các trang web, ta đang tương tác với 1 streaming server, nhờ đó mới có các tính năng như tự căn chỉnh độ phân giải, chỉnh tốc độ hay dừng, phát,.. VD trên gg drive thì khi preview xem video là streaming server đang gửi data cho ta
+
+IVOD (Internet Video on Demand) là 1 extension của VOD. IVOD system có thể phục vụ 1 lượng lớn user connect đồng thời. User có thể tương tác với video nhiều thứ hơn. 2 loại:
+1) Centralized system như server central bth
+2) Distributed IVOD system: có nhiều local server và media server. Client request được xử lý bởi local server. Local server lại lấy data từ media server nào gần nó gửi trả client.
+
+Architecture:
+Network có nhiều Reserve Server gắn với nguồn data dự phòng
+Network có Local Server truyền data cho các thiết bị của client.
+Local Server gắn với media server lấy data, nó cũng có local buffer. 
+
+Bên trong server có:
+|__ Tape Controller ___ Tape drive
+|__ Optical disk controller __ optical drive
+|                           __ DBD ROM Juke Box
+|__ Magnetic disk controller __ Disk array
+|__ Network interface <--> Tương tác với client
+
+Tức mấy cái chỉnh sửa tốc độ, hay chỉnh chất lượng âm thanh đều là cấu hình có sẵn của VOD system được dùng phổ biến, nên khi hiển thị video, ta k thực sự phải code tạo lại từ đầu từng tính năng đó.
+
+Data -> signal sóng điện từ.
+Analog data là voice, video. Digital data là text, int
+Analog signal có infinite number of value in a range. Digital signals có limited number of values.
+Truyền long distance analog cần có amplifier sẽ khiến nó distorted more.
+
+Periodic vs non-periodic signal
+
+Captured media là thông tin được captured từ real world. Synthesized media là thông tin được tổng hợp bởi máy tính
+VD ảnh mà camera chụp được thực tế là captured image. Ảnh mà computer xử lý rồi là synthesized image.
+
+Still Image là data discrete nhé vì nó biểu diễn bằng 1 chuỗi bits được 2D matrix được. 
+Pixel depth là số bits cần để encode 1 pixel. VD ảnh binary là 1, grayscale là 8, color là 24.
+Still image khác với graphics. Graphics là 1 loại doc chứa object là structural info như line, curve, circle được tạo ra bởi các giao diện đồ họa phức tạp. Senmatic content trong graphics được preserved. Khác với still image không có object, k bảo toàn senmatic content.
+Image compression: run length coding (RLC), Lempel-ziv là 2 kiểu k mất content. Chroma sub-sampling và transform coding là 2 kiểu nén làm mất content
+
+Run-length coding, also known as run-length encoding (RLE), is a simple form of data compression that is used to reduce the size of repetitive sequences of data. It works by replacing consecutive repeated characters or symbols with a count of the repetition and the repeated character itself. This encoding method is particularly effective when there are long sequences of repeated data.
+VD: "AAAABBBCCDAA" -> "4A3B2C1D2A"
+
+Text cung có 2 loại là plain text và rich text. 
+ASCII dùng 7 bits standard, 8 bits nếu dùng extended code table. Unicode dùng 16bits system.
+Text compression: huffman, lempel-ziv
+
+Video thực chất là moving image. 
+Video compression: International Telecommunication Union có H261, H263, H26L. International Organization for Standard có MPEG1, MPEG2, MPEG4
+
+Sound là độ rung lan truyền tạo sóng. 
+Audio compression: FLAC, Apple Lossless, MPEG4 ALS là nén k mất content. MP3 là nén mất content
+
+Distributed Multimedia System là truyền tải thông tin multimedia trên mạng. Gồm nhiều multimedia server và multimedia clients send qua multimedia networks. Cũng chỉ là quá trình chuyển đổi data thành sóng rồi send qua mạng.
+
+Multimedia networks: 
+Telephone Network: public switched telephone networks(PSTNs), được designed để cung speech services, h đã hỗ trợ hết.
+Data Network: mạng support data application (email/ftp)
+Broadcast Television Networks: Broadcast TV
+Broardcast multiservice network: cung multiservie cho nhiều clients
+
+Multimedia OS: hệ thống cung môi trường để exec program và đảm bảo tận dụng hiệu quả computer hardware.
+
+Hard real-time applications are designed for specialized purposes, where even smallest amount of latency can make the difference between life and death. These applications include triggering airbag deployment in car crashes or monitoring the heart rate of a patient during an operation.
+Soft real-time applications: no absolute performance guarantees can be made.
+
+
+
+# Digitize data
+Analog signal có cường độ đổi liên tục theo thời gian. Fourier transform tách signal thành các tần số. Fourier show rằng bất cứ lúc nào, signal cũng được tạo bởi 1 số lượng vô hạn components đơn tần hình sin. 
+Band-limited signal là các signal mà dạng fourier transform chỉ có có giá trị khác 0 ở 1 số khoảng frequency nhất định, VD X(f)!=0 chỉ trong khoảng -B<=f<=B. Để tranfser, channel bandwidth phải >= signal bandwidth. 
+
+Fourier Transform sẽ transform data từ time domain sang frequency domain. Thực tế mỗi làn sóng continuous k tuần hoàn đươc tạo thành từ nhiều sóng sin tuần hoàn có tần số khác nhau, chỉ là khoảng thời gian nào thì lấy sóng có tần số nào mà thôi, nhìn hình slide là hiểu. 
+
+Bước Sampling:
+Sampling rate or sample frequency là số lượng sample trung bình được chia ra trong 1s. 
+x(t) là bandlimited signal có B là frequency lớn nhất. 2B or anything larger gọi là Nyquist rate or sampling rate => kp frequency. Nó là số lượng trong 1s
+
+Thì ra trục ngang là tần số, trục Oy là cường độ. Cái độ thì ở tâm là chính. B là giá trị nó giao với O(x). Nếu |f|>=B mà luôn >0 thì đúng rồi, ta có thể copy nó trải dài trục O(x) tạo thành các dải phân biệt. Nếu |f|>=B mà có giá trị =0 tức đồ thì 2 bên liền kề nó giao với nó bị overlap, thì gọi là nyquist criterion k thỏa mãn. 
+
+Bước Quantization:
+Biểu diễn signal sạng số. Càng nhiều mức quantization càng tốt.
+Most significant bit là dấu của sample. 0 là dương, 1 là âm. Mỗi mức cường độ là 1 dãy bit biểu diễn
+Quantization interval q = Vmax/2^n với Vmax là max cường độ, n là số bit cần để biểu diễn cường độ.
+Do ta phải làm tròn nên sẽ có quantization error, có chênh trong +-q/2
+
+Analog signal -> Encoder[AAF, ADC[Sample and Hold, Quantizer]] -> Digital codeword là binary
+AAF (anti aliasing filter) loại bỏ phần tử tần số cao hơn trong source signal
+Sample and Hold làm bước sampling cái filtered signal trong regular interval và duy trì cường độ đó. 
+Quantizer chuyển sample sang dạng sô
+
+***Alias là chỉ các giá trị tần số cao. VD ta hợp nhất lại thành 1 cục để đối xứng trục Oy thì các tần số > fs/2 gọi là alias. Vì actual signal k có giới hạn upper bound nên alias luôn xảy ra khi ta thực hiện sample
+AAF là low-pass filer được dùng trước signal sampler để giới hạn bằng thông của signal thỏa mãn Nyquist-Shannon sampling theorem.
+Với các signal bandwidth limited nhưng k central tại mốc 0, nó có thể phải đi qua bandpass filter nữa.
+
+Alias xảy ra khi higher frequency component được biểu diễn sai or bị biến thành lower frequency khi sampling or số hóa. Vc dùng AAF sẽ xóa bỏ các higher frequency đó và k bị lỗi nx.
+
+VD đài FM radio centred tại 87.9 MHz và bandlimited là 200kHz thì AAF cũng center tại đó với bandwidth như v. Còn sampling rate không được nhỏ hơn 400kHz
+
+Digital codeword -> Decoder[DAC, low-pass filter(reconstruction filter)] -> Analog signal
+Zero-Order Hold sẽ duy trì giá trị sample trong khoảng interval(từ continuous sang discrete). Reconstruction filter sẽ smooth nó thành signal ban đầu, remove tần số vượt quá Nyquist limit.
+
+
+
+# Text:
+Plain text, Rich text
+Hypertext là set of document có link với nhau, mỗi documents chứa rich text.
+Ký tự Việt k fit đủ trong 96 printable character trong bảng dùng 8 bits
+
+Unicode có 2 mapping methods:
+Unicode transformation format(UTF): UTF8 UTF16 UTF32 
+Universal character set(UCS): UCS2 tập con của UTF16 dùng được 70 ký tự thg dùng trong mạng GSM
+UCS4 giống UTF32
+UTF8 được dùng trong WWW. 128 ký tự đầu là ASCII.
+UTF16 dùng trong các hệ thống internally như Microsoft window, JS,..
+
+Nén text: 
+Statistical compression: dùng huffman
+Huffman coding cần phân bố xs của input gọi là model, có thể là static, adaptive, semi adaptive
+Static là tĩnh và cả compressor lẫn decompressor phải biết điều đó. Dữ liệu động như video, audio phải dùng adaptive model. Cả compressor và decompressor k cần biết trước phân bố xs của source. Lợi ích của vc đó là source có thể encoded ở real time nhưng nếu truyền mà bị lỗi sẽ hỏng toàn bộ code. 
+Complexity: nlogn
+
+Arithmetic coding tương tự nhưng biểu diễn dưới dạng giá trị phân số giữa 0 và 1, chia nhỏ dần
+Nó có dùng small table biểu diễn tần số. Nó có simple adaptive mechanism, huffman sẽ tạo ra elaborate adaptive alg.
+Chia encode rồi decode lại được.
+Data size là số lượng bit cần dùng để biểu diễn điểm chính giữa của khoảng đích
+
+Lempel-ziv coding: ý tưởng là các đoạn ký tự trùng nhau trong câu được gom lại thành 1 ký tự mới và dùng thôi. Nó extend bảng ban đầu từ 8 thành 9-12 bit để làm điều đó chẳng hạn. Các câu ngắn k có nhiều đoạn trùng nhau thì lempel-ziv k tốt => thuật toán này bh k còn được dùng nh trong máy tính. 
+
+In Huffman coding, no code is prefix of any other code
+
+-> Arimethic coding:
+Đầu tiên nhận 1 chuỗi, lần lượt vẽ ra các khoảng, đến khoảng cuối thì lấy trung điểm được 1 số thập phân.
+Biểu diễn phần thập phân bằng 1 số lượng số 0 và 1 tối thiểu sao cho ra 1 số nằm trong khoảng (chứ kp biểu diễn tất cả phần thập phân vô hạn ra)
+Cứ lấy = 1/2 + 1/4 + 1/8 +... để nếu tính thủ công chứ đừng nhân 2 liên tục rất ngu
+
+
+
+# Sound:
+Sampling rate nói về việc chia trục tần số Ox. Quantization nói về việc chia trục cường độ Oy biến thành số 
+
+Audio compression:
+-> PCM là phương pháp mã hóa tín hiệu analog thành dạng số học để truyền tải. 
+Differential Pulse Code Modulation (DPCM) là phương pháp mã hóa âm thanh hoặc hình ảnh mở rộng của PCM. Thay vì mã hóa từng giá trị một, ta chỉ mã hóa sự chênh lệch của giá trị sau so với giá trị trước. Hiển nhiên sẽ dùng ít bits hơn là mã hóa tuyệt đối mọi giá trị. 
+Giá trị signal tính bằng việc trừ current content trong register với output mới nhất từ ADC, r lại update register value bằng giá trị mới đó. Do ta chỉ lưu sự chênh lệch và đã được quantized nên khi tính giá trị hiện tại, ta cần đoán được giá trị trước đó chính xác nhất có thể. Ta phải dưa vào giá trị hiện tại và sự chênh lệch giá trị của các signal phía sau. Đó là third order DPCM.
+
+Adaptive DPCM(ADPCM) được nói trong tiêu chuẩn ITU-T Recommendation. Dùng các lượng bit khác nhau để mã hóa chứ k fix bit size. frequency tín hiệu sau trừ frequency tín hiệu trước mà lớn thì dùng nhiều bit, nhỏ thì dùng ít bit hơn.
+Sub-band ADPCM có sound quality tốt hơn trong VoIP. signal trước khi sampling sẽ đi qua 2 filter lọc tần số lower subband và upper subband ra rồi dùng ADPCM cho 2 loại chứ k để cao trừ thấp luôn sẽ tốn rất nhiều bits.
+
+Linear Predictive coding: dự đoán current speech sample xấp xỉ linear với past sample. Vc xấp xỉ dự đoán trong 1 vài short frame thôi => loss quality
+Code-excited LPC: CRLPC tương tự LPC nhưng các digitized frame được encode độc lập khác nhau, nó được quyết định bởi encoder và decoder, gọi là template codebook.
+=> Dùng cho phone app
+
+-> Perceptual Coding* thg dùng nén audio gắn với television boardcast. Chỉ phàn waveform tai nghe được mới được truyền đi. 
+Độ nhạy tai người 2-5kHz nhưng k cố định mà theo 1 đồ thị cường độ/tần số. 
+Nhưng khi multisignal truyền đi, strong signal làm giảm độ sensitivity của tai với weak signal. Đồ thị sensitivity sẽ bị distorted. Tức có thể loại bỏ các weak signal đó đi dù nó vẫn nằm trong khoảng nghe được của đồ thị gốc. Gọi là frequency masking* 
+Critical band* được dùng để lượng hóa 1 khoảng mà tai nghe có thể phân biệt các signal khác nhau. Thực tế có các signal ở 1 ngưỡng mà ta nghe k phân biệt được sự thay đổi, nghe nhiều signal khác nhau giống y đúc. Critical band ở low frequency lớn hơn high frequency. Tức con người dễ phân biệt sự thay đổi về âm thanh ở tần số thấp hơn tần số cao. Critical bandwidth* của 1 signal là phần frequency nghe được của signal đó. 
+Có nhiều critical band. Beating phenomenon* xảy ra khi tai k thể phân biệt được input trong cùng 1 critical bandwidth mà sự chênh lệch về tần số giữa chúng nhỏ hơn bandwidth của critical band. 
+Temporal masking*: khi tai nghe 1 âm thanh tần số cao, nó sẽ mất 1 ktg ngắn để có thể nghe được 1 âm thanh nhỏ hơn chứ k đủ nhạy để nghe được luôn. Có thể xóa bỏ 1 đoạn ngắn âm thanh tần số thấp ở ngay sau 1 âm thanh tần số cao.
+
+Chiều rộng của mỗi curve ở từng signal level được gọi là critical bandwidth của frequency* đó. 
+
+Hiểu nôm na: 2 âm thanh phát ra cùng lúc, tai người chỉ phân biệt được 2 âm thanh đó là gì, khác nhau ntn nếu chúng rơi vào critical bandwidth
+
+MPEG audio coder: 1 pp nén khác
+Bandwidth chia ra thành 32 tần số subband. 
+1 tập hợp signal-to-mask ratio được xác định để chỉ ra các chỗ mà tần số có thể bỏ đi, tính cả frequency và temporal masking.
+Nhiều bit để biểu diễn ở mức nghe được, nghe kém sẽ dùng ít bit hơn. 
+
+
+
+# Image: 
+RGB RGBA computer monitor; CMYK printing; YCbCr ảnh và video capturing system; HSV artist
+YCbCr không phải 1 kg màu mà là 1 cách encode RGB có 3 thông số Y, Cb, Cr. Kênh Y cho đen trắng. Cb và Cr là màu. Được dùng mạnh trong công nghệ nén ảnh như JPEG, MPEG do hiệu năng xử lý nén cao. 
+
+Image compression: 
+Chroma sub-sampling (lossy compression) giảm lượng dữ liệu cần thiết nhg vẫn giữ độ chính xác chấp nhận được. Trong YCrCr, nó giữ Y và đổi Cb Cr để giảm lượng sample. Có 3 kiểu: 4:4:4 là giữ tất cả (Vd phim chất lượng cao, cinematic ở rạp), 4:2:2 là giảm Cb Cr 1 nửa theo chiều ngang trên matrix, 4:2:0 là giảm Cb Cr 1 nửa theo cả ngang và dọc (DVD, JPEG)
+
+1) JPEG standard: tiêu chuẩn nén ảnh, giúp nhỏ hơn 10 lần, có loss ít, sử dụng Discrete Consine Transform(DCT) transform coding. DCT được cho là optimal for image coding.
+
+Energy compaction hay signal compaction là việc giảm kích thước hoặc tối ưu hóa biểu diễn tín hiệu bằng cách tập trung năng lượng vào thành phần quan trọng nhất. Giảm thiểu các components chỉ có đóng góp nhỏ cho tín hiệu. Thg áp dụng trong nén dữ liệu bằng cách loại bỏ các thành phần kqtr.
+
+Phân biệt:
+DCT(biến đổi cosin): transform chuỗi data từ time và spatial domain sang frequency domain. Nó liên hệ chặt chẽ với Fourier Transform nhưng được dùng phổ biến trong nén data tổn thất với ít tham số hơn. Đa phần các component là low frequency nằm ở upper left corner của bảng DCT. Các phần tử lower right thường đủ nhỏ để xóa bỏ mà k mất quá nh data (compression).
+Fourier: PP toán học phân tách signal thành các thành phần tần số nói chung. 
+PCA(Principal Component Analysis): kỹ thuật thống kê để giảm số chiều và vẫn giữ thông tin quan trọng nhất dựa vào ma trận trực giao của ảnh. Nó hiệu suất tốt hơn DCT nhưng tính toán đắt
+
+Quatization là bước loại bỏ data k qtr. Quatization step size được chọn như 1 ngưỡng mà giá trị ngưỡng lấy từ thực nghiệm.
+Cơ chế rất đơn giản. VD ta có 1 bảng toàn data tần số cao hơn 100 chẳng hạn. Xong ta trừ tất cả đi 100 thì vẫn được 1 bảng biểu diễn tương tự nhưng cần ít bit hơn để biểu diễn giá trị và dễ dàng dựng lại table ban đầu. Ở đây nó biến 1 mức higher frequency thành 0 hết. Các giá trị còn lại sẽ là 1 số dương nhỏ hoặc 1 số âm nhỏ. Khi đó lower right của bảng toàn 0 và có thể ignore mà k mất chi tiết qtr.
+
+Entropy Encoding là 1 dạng lossless data compression. Nó xếp các components của image trên bảng DCT thành zigzac order chạy Run Length Coding (RLC) alg rồi dùng tiếp huffman code. Thực ra là chia DC và AC
+Tức component tần số thấp ở đầu, tần số cao thành 0 ở cuối
+
+Phương pháp RLC khác gì vơi DPCM:
+DPCM là việc tính ra quantized DC value của 1 component bằng sự chênh lệch giữa DC coefficient của nó với component trước nó: DIFF = DC(i) - DC(i-1)
+DC value ở đây là giá trị trong DCT (discrete cosine tranform) là bảng mà trừ đi thành số nhỏ(trước khi quantize số lớn về 0)
+RLC được dùng để encode các AC coefficient khác
+AC coefficient tạo bởi cặp pair (run length, size)(amplitude) với run length là số lượng số 0 khi chạy và size là số lượng bit cần để mã hóa cường độ
+VD: (0,2)(-3) thì cần 2 bit mã hóa số -3 mà
+
+JPEG cung Huffman tables generate tự optimize theo frequency của image với codeword rồi
+
+Trong bảng huffman, category là size đó. Ta encode huffman phải dựa vào bảng JPEG cung cấp chứ k thể bịa ra 
+VD: DC coefficient: +3 -> (2),(3) => Vì +3 cần dùng 2 bit để biểu diễn nên là (2)(3)
+Encoded DC coefficient: 011 11 
+=> Vì +3 là 011 tức số 0 ở đầu biểu diễn là số dương, còn về sau là dùng 2 bit biểu diễn số 3 thì là 11 => bịa đấy
+VD: AC coefficients: (0,2) (-3), (1,2) (-3)… EOB
+Encoded AC coefficient: 01 00 11011 00 … 00
+=> (0,2) thành 01 là dựa vào bảng luminance AC. (-3) là 00 dựa vào bảng huffman. 
+VD bảng huffman: -3 -2 2 3 là nó chơi kiểu 4 số nên cần 2 bit và -3 là số đầu tiên biểu diễn là 00
+
+Ở đây nó dựa vào 2 bảng, giá trị đầu dựa vào bảng AC or DC, giá trị sau dựa vào bảng huffman. Các bảng được cung sẵn bởi JPEG
+
+JPEG k đủ tốt vì k ổn khi compress ảnh chữ, nếu có error thì chất lượng sẽ giảm đáng kể
+
+2) JPEG2000 Standard
+Cut ảnh thành từng tile k overlap, thực hiện transform và xử lý từng tile độc lập
+3 bước qtr ở từng tile sau khi cut:
+- Discrete Wavelet Transform: Cho signal cần transform qua 2 cái lowpass filter và highpass filter và subsample đi factor of 2 => để reconstruct thì làm ngược lại. Dùng wavelet transform theo 2 chiều dọc và ngang độc lập.
+- Quantization: convert wavelet cofficient của từng tile từ float sang int, rồi được đưa vào packet. Mỗi cái tile thực tế có các subband. Mỗi subband là 1 hcn lớn được chia thành các hcn nhỏ hơn. Vd các hcn có cùng space location như HL, LH, HH ở ngang nhau là có cùng 1 mức độ phân giải, đều chứa 1 packet. Packet này cần thiết để decode đúng phần không gian đó (spatial region) ở resolution đó của image.
+Packet đó về sau còn được chia thành từng code block non overlap cơ. Code block có kích thước default là 64x64. Coefficient có giá trị nhỏ sẽ tăng chất lượng của hình ảnh ít nhất. Deadzone quantizer là phần đồ thị có giá trị băng 0 sẽ loại bỏ các coefficient nhỏ này. 
+- EBCOT: Packet chia thành code block chính là phần quan trọng của bước EBCOT của JPEG2000. EBCOT chia thành 2 layer gọi là Tier.
+Tier 1 chứa source moduling (source ảnh) và entropy encoding (pp mã hóa zigzac trên cái bảng DCT sau khi quantized ấy)
+Tier 2 sinh output bit stream
+Code block được coded thành bit plain (1 cái bảng). Bit qtr nhất được tạo trước rồi đến lower order bits được code theo chiều giảm dần. Mỗi bit plain được xây độc lập nhau. Bit plain về sau được chia ra thành 3 phase: significance propagation (lan truyền most significant bit), magnitude refinement (căn chỉnh cường độ), clean up passes (dọn dẹp các pass). Mỗi coding pass dựng lên 1 đơn vị code gọi là chunk.
+Chunk xây lên các valid truncation point. Cả encoder và decoder đều có thể cut cái bit stream tương ứng với valid truncate point để recover data ban đầu thành target quality.
+Output bit stream tạo thành bởi 1 lượng các packet chứa chunk of code block in a given subband và thuộc về cùng 1 layer là kết quả của JPEG2000
+
+Thuật toán zigzag scan chỉ dùng cho run length coding và huffman coding vì nó cho ta 1 list zero in a row sau khi quantized value.
+Dùng lempel ziv để encode image thì k cần zigzag scan, ta viết nó từ trái sang phải, từ trên xuống dưới bth.
+Compression ratio = lượng bit cần original / lượng bit cần biểu diễn sau khi compress => chú ý lempelziv tăng lượng bit lên nên mỗi ký tự dùng nhiều bit hơn đó nhưng tổng thể toàn bộ data sẽ dùng ít bit đi nếu có nhiều đoạn trùng
+
+
+
+# Video:
+Video signal là 1 chuỗi ảnh 2D được lấy từ 3D scene, ghi lại cường độ ánh sáng phát ra từ object lên mặt phẳng ảnh, cường độ đó thay đổi theo không gian và thời gian. Có 2 loại video:
+Color video được xđ bởi 3 tín hiệu, mỗi tín hiệu mô tả 1 màu, gọi là component video.
+Composite video cũng tương tự nhưng 3 màu được multiplexed thành 1 single signal. Composite signal có băng thông thấp hơn tổng bandwidth của 3 component signal cộng lại, do đó có thể lưu và truyền có hiệu suất cao tùy vào chất lượng video. 
+S video chứa 2 phần tử: luminance component (ánh sáng) và single chrominance component (sắc tố màu nào)
+
+Analog video raster: 
+Analog TV system ngày nay dùng raster scan để quay và hiển thị video. Có 2 loại scan là:
+- Progressive: scan ảnh lần lượt từ line1 tới line cuối cùng của raster để tạo 1 video frame. 
+- Interlaced (xen kẽ): scan odd line ở field 1 và even line ở field 2 rồi kết hợp 2 field để xây ra 1 frame. 
+
+Refresh rate hay frame per second là tần số display giữa 2 bức ảnh tĩnh trong video. Trong phim bth là 24frames/s. 
+Khi fix bandwidth, interlaced scan sẽ hiển thị gấp đôi refresh rate so với progressive scan nên cản thiện tốt hơn object motion. Nhưng sẽ gây interlaced effect(bị nhấp nháy) nếu object trong video di chuyển nhanh. 
+
+Wagon-wheel effect hay hiệu ứng aliasing xảy ra khi 1 vật thể xoay hay chuyển động lặp tốc độ cao. VD tốc độ quay của vât khớp với khung hình, ta có thể thấy các hiện tượng lạ như vật thể di chuyển chậm, đứng yên hay đảo chiều. 
+
+Digital video có thể tạo ra bởi digital video camera hoặc dùng raster scan rồi chủ động sampling nó. Có nhiều chuẩn về quy tắc sampling.
+
+Video compression: 3 chuẩn
+ITU-T, ISO
+MJEG dùng JPEG alg nén từng frame độc lập.
+
+Video stream có 2 chiều không gian và 1 chiều thời gian. 
+Video compression được thực hiện độc lập ở chiều không gian. Encoder cố gắng xóa spatial redundancy (như JPEG), hđ trên 8x8 pixel image block.
+Video compression được thực hiện lần lượt ở chiều thời gian. Encoder xóa temporal redundancy (object chuyển động mà thừa), hđ trên 16x16 pixel img block.
+
+Motion Estimation: 
+QH giữa 2 frame có object chuyển động như nào được bd bằng motion vector. Estimation of motion vector đủ tốt sẽ nén được nhiều hơn và tạo vid chất lượng tốt hơn. 
+Thực tế, frame được chia thành các blocks k overlap (16x16 pixel). Block size càng nhỏ thì motion vector càng phải tính toán nhiều hơn. Motion vector chỉ được tính nếu như sự khác biệt giữa 2 block ở cùng 1 vị trí trong video lớn hơn mức threshold. Chứ chỉ đổi có 1 tẹo motion mà mắt người k cảm nhận được thì k tính.
+Mỗi block của current frame được ss với pastframe trong phạm vi search. Search theo hcn và nó xem movement theo chiều ngang ưu tiên hơn chiều dọc. Chỉ các thông số về luminance được ss giữa các block, sự thay đổi về màu sẽ thêm trong qtr encoding. 
+
+Motion compensation: 
+Video motion thg complex. 1 sự dịch chuyển 2D k thể mô tả đúng nên sinh ra prediction errors. Do đó phải gửi thêm thông tin để chỉ ra sự khác biệt giữa predicted và actual position of moving segment, gọi là motion compensation.
+Cần ít data hơn để store cái differences đó. 
+
+MPEG standard có 3 chuẩn biểu diễn video/audio:
+MPEG1 là chuẩn đầu tiên có chất lượng thấp
+MPEG2 có chất lượng audio và video tốt hơn
+MPEG4 dùng được cho nhiều ứng dụng với nhiều quality khác nhau. 
+
+MPEG có 3 loại frame:
+I-Frame: được encoded độc lập k liên quan tới các frame khác. Mỗi frame là 1 ảnh độc lập và các thông số Y, Cb, Cr matrix được encode độc lập bằng JPEG(DCT ma trận rồi quantize và xóa bỏ high frequency đó). Nó phải được gửi lặp lại sau mỗi interval để tránh mất toàn bộ picture trong qtr truyền vì nó có thể bị corrupted và mất frame khi truyền. Các frame/ảnh được gửi giữa 2 iframe liên tục gọi là GOP(group of picture), thường thì GOP=3-12
+
+P-Frame: Frame dự đoán motion từ previous frame. Encoding của p-frame tương ứng với 1 iframe hay 1 pframe tiếp theo. 
+P frame được encoded kết hợp từ motion estimation và motion compensation:
+- 2 frame như nhau thì chỉ cần encode address of marco block trong frame
+- Nếu 2 frame gần giống nhau thì encode cả motion vector và difference matrices gắn với marco block 
+- Nếu 2 frame khác hoàn toàn, encode cả target marco block giống marco block trong i-frame
+Số lượng Pframe giữa 2 iframe bị giới hạn để tránh error propagation.
+
+B-Frame: Dự đoán bidirectional motion từ previous or future frame.
+Motion estimation hoạt động tốt khi object di chuyển chậm. Nhưng nếu nhanh thì phải dùng B-Frame. Nó cung highest level of compression và vì nó k nằm trong phần coding của các frame khác nên nó k propagate errors.
+
+=> Điểm hay là kp nó gửi từng frame đơn giản trong 1 video mà nó gửi nhiều loại frame khác nhau như này.
+
+-> MPEG1 nén iframe giống JPEG, giảm được 10 đến 20 lần tùy vào mức độ complex của frame content. P và B frames có mức nén cao hơn lên đến 30-50 lần
+
+-> MPEG2 hỗ trợ interlaced video và alternate scan order. Nó có error resilience technique.
+2 alternative scan order là zigzag scan và alternate scan(scan theo 1 pattern khác bao hết ảnh).
+Alternate scan cải thiện tính hiệu quả của DCT, giảm prediction error vì các hàng có quan hệ với nhau nhiều hơn.
+
+MPEG2 Scalable Coding: 
+Scalable coding chia audio-video stream thành base layer và vài enhancement layer. Khi base layer được decode là đã đảm bảo audio-video đạt chất lượng cơ bản rồi. Nếu transmission channel cho phép, vc giải mã enhancement layer còn tăng thêm chất lượng cho decoded stream nhiều hơn nữa. 
+Có nhiều loại scabability như SNR, spatial, temporal scan or hybrid(là kết hợp các cái trước)
+
+SNR Scalability: Ở base layer sẽ quantized DCT coefficients sẽ có ít bits và video chất lượng thấp. Sau coefficients được quantized ngược lại và cho vào Enhancement layer để ss với original DCT coefficient. Sự khác nhau đó cuối cùng được quantized 1 lần nữa để sinh ra DCT coefficient refinement
+Spatial Scalability: Base layer generate bitstream đã giảm chất lượng, khi combine với enhancement layer thì tạo được original resolution
+Temporal Scalability: (Xử lý framerate) Base layer là lower framerate. Để có framerate cao hơn thì phải decode additional picture trong data stream bằng temporal prediction.
+
+-> MPEG4: 
+Được dùng cho interactive multimedia app qua mạng. Nó cho phép kiểm soát mọi phần tử trong video.
+Trong MPEG4, mỗi frame được tách thành 1 lượng video object planes(VOP), mỗi object tương ứng với 1 AVO(Audio visual object) hiển thị ra. VOP có thể encoded độc lập or phụ thuộc với nhau khi dùng motion compensation. 
+Thực tế VOP chứa motion, shape, texture xác định 1 video object ở 1 khoảnh khắc tức thời trong video.
+Mỗi audio và video object đều có 1 object descriptor, viewer dựa vào nó để manipulate object.
+
+
+
+# Multimedia networking system:
+-> 2 loại mạng LAN và WAN
+
+FDDI là 1 loại Ethernet
+
+-> WAN Technology
+PSTN
+ISDN
+Broadband ISDN dùng giao thức ATM
+Wireless network
+
+
+
+# Synchronization
+-> Reference model
+Media layer là ứng dụng tự đồng bộ intra-stream trên 1 luồng
+Stream layer là ứng dụng đồng bộ inter stream khi nhiều luồng chạy song song
+Object layer cung sẵn completed synced media và người dùng cho vào sync spec là nó tự schedule đồng bộ cho ta
+Specification layer cung tool để người dùng tự tạo và đồng bộ 
+
+
+
+# Quality of service:
+Human ear k chịu được short term jitter nên delay phải gần như k có
+Human eye có thể chịu 1 chút loss nên package loss về hình ảnh vẫn ok nếu bị trong mức độ chấp nhận được
+
+-> Các phương pháp quản lý khi truyền tin giữa sender và receiver:
+1) Khi nhận nhiều tin quá và đưa vào queue để chờ xử lý
+--> Queuing and scheduling:
+FIFO
+Priority Scheduling 
+Weighted Fair Queuing: mọi traffic được phân vào các traffic classes. Các traffic class sẽ dùng chung bandwidth theo tỉ lệ riêng. Tức cái trước chia theo priority là độ quan trọng xem cái nào xử lý trước thì cái này thực hiện như bth nhưng bandwidth được chia ra.
+Round Robin 
+
+2) Quản lý khi tắc nghẽn 
+--> Congestion Control and Queue Discard
+Tail Drop
+Random Early Discard
+WRED
+
+Tricolor marking => cũng chỉ là cách đánh priority để biết nên ưu tiên cái nào, bỏ đi cái nào
+PLP
+Single-rate TCM: CBS EBS
+Two-rate TCM: CIR PIR
+
+3) Integrated service là 1 loại dịch vụ mà sender gửi đi và receiver nhận dịch vụ về để dùng, receiver có thể gửi request lấy dịch vụ:
+-> Integrated Service
+Resource Reservation Protocol 
+Traffic Specification
+Request Specification 
+Admission Control 
+
+-> Best effort network là như mạng thực tế thôi
+
+-> Token Bucket Filter
+
+-> Soft State
+Path state gắn với 1 timer hết hạn khi timer kết thúc
+Sender và Receiver định kỳ refresh state và gửi PATH message và reset timer 
+State có thể xóa bởi Teardown message
+Soft state k thực sự cần thiết dù tốt cho hiệu suất. Nó giúp dynamic auto adaption với sự thay đổi của network.
+
+-> RSVP: Là 1 method để app reserve resource trên mạng để store service mà receiver gọi vào để lấy. Có 3 method con:
+Fixed filter style
+Wildcard filter style
+Shared explicit style
+3 cách xác định receiver nhận service từ tất cả mn hay nhận service từ 1 vài người trong list 
+
+-> Differential service: là method quản lý kiểu cung dịch vụ ra phụ thuộc vào traffix
+Node k cần lưu state info trong router nữa.
+Nó cung service tốt bằng cách phân biệt traffic flow. Nó giảm latency cho traffic quan trọng như voice, streaming video, còn cung best-effort cho traffic ít ưu tiên hơn
+
+DiffServ Policy xđ traffic nào nhận 1 service nào đó trong mạng. Nó đo traffic nếu quá tải sẽ k cho nhận
+Edge Router phân biệt packet truyền đi bằng code point biểu diễn level của service
+Core Router phân biệt packet truyền đi bằng code point và Per-Hop-Behavior table
+
+Per-Hop-Behavior => định nghĩa sự khác biệt giữa các class, các packet bằng 2pp Expedited Forwarding và Assured Forwarding khi mạng bị delay hay quá nhiều packet thì gán 1 priority cao hơn cho higher class để pb chẳng hạn
+
+
+
+# Live Streaming
+RTP, RTCP, RTSP
+
+-> Real time multimedia traffic:
+Playback buffer phải separate
+Cannot be TCP
+
+-> Real time transport protocol:
+RTP
+
+RTCP: 
+Các thuộc tính mà nó có
+Volumn của RTCP k được quá 5% của RTP vì nó vẫn gửi bất chấp RTP thành công hay không, user kia còn hay không nên phí bandwidth
+
+FEC
+Interleaving: giúp lost package có ít ảnh hưởng hơn
+Receiver-Based Repair
+
+-> Secure Real-Time Transport Protocol:
+SRTCP và SRTP
+
+MKI định nghĩa 1 master key mà sinh ra session key từ đó. Cái session key này sinh từ master key và dùng để mã hóa packet. Mỗi stream SRTP cần sender và receiver duy trì cryptographic state info.
+
+Packet được gửi lại khi được lưu bởi adversary(chả rõ là gì) và reinjected vào mạng
+Mỗi SRTP receiver có 1 replay list chứa index của packet nó đã nhận để tránh replica attack
+
+-> Bên trên là các protocol base, bh ta xét các protocol thực tế ứng dụng nó:
+--> Real time streaming protocol RTSP => chính là streaming server bth
+Dùng RTP, RTCP cho media streaming
+Có control sequence để quản lý playback và dùng TCP duy trì connection.
+Khác với HTTP và RTSP có state, request của RTSP có thể tạo bởi both client và server
+Có nh loại message như teardown, play, pause
+
+--> Real time messaging protocol
+RTMP giúp streaming giữa Flash player và server
+
+--> HTTP Live Streaming => dùng HTTP như bth nên có QoS và low latency
+MPEG-DASH giống HLS nhưng là chuẩn quốc tế
+
+--> WebRTC: Chuẩn kết hợp support bởi browser khiến mọi browser đều có thể là client cho realtime streaming data
+
+
+
+# H.323:
+H.323 là một chuẩn giao thức đầu cuối (endpoint) được sử dụng trong viễn thông truyền thoại và hội nghị truyền hình qua mạng IP (Internet Protocol). Nó là một trong những chuẩn cơ bản của Viễn thông Đa phương tiện (Multimedia Communication) được phát triển bởi Tổ chức Viễn thông Quốc tế (ITU-T).
+H.323 được thiết kế để hỗ trợ việc truyền thông giữa các thiết bị đầu cuối như điện thoại IP, hội nghị video và các ứng dụng truyền thông khác thông qua mạng IP hoặc các mạng dựa trên IP
+
+-> H.323 Terminal
+
+-> H.323 Gateway
+
+-> H.323 Gatekeeper
+
+-> H.323 MCU: Quản lý multipoint conference
+
+H.323 MCU có 2 entity là multipoint controller và multipoint processor
+Multipoint controller có vai trò call signaling mà chuẩn H225 thực hiện, call signaling là các endpoint call tới nhau để truyền tin hay gì
+
+H225 call signaling là giữa 2 H323 endpoint
+H225 RSA là call giữa H323 endpoint với gatekeeper
+
+H245 là call signaling giữa 2 endpoint khi truyền control message cho H323
+
+-> SIP: Là protocol ở tầng app để quản lý mỗi multimedia session thôi. VD tạo, sửa, terminate session
+SIP highly extensible
+
+SIP có 4 loại entities và cung đủ chức năng như client (initiate request for session) or server (response to request):
+SIP User Agent: take user input
+
+SIP Server: Chỉ là 1 cái server bth nhưng làm việc với SIP để trao đổi tin trong 1 session 
+Proxy server sẽ như proxy server 
+Redirect server sẽ thay đổi điểm đến va gửi lại để client gọi tiếp điểm đến mới (chứ nó k trực tiếp call tới điểm đến tiếp theo)
+Registrar server: nhận REGISTER request để update location database về thông tin của user. 
+
+SIP back-to-back User Agent: kết hợp UA và Proxy, thay đổi request và gửi đi
+
+SIP gateway: 
+
+

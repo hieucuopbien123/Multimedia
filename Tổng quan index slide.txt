@@ -1,0 +1,71 @@
+Introduction:
+IVOD - Client - Server
+Still images - Graphics - Video - Sound - Text
+
+Digitialization Principals:
+Signal bandwidth
+Sampling - Nyquist rate - Quantization - Quantization interval
+Encoder - Alias - Anti alias filter - Decoder - Zero Order Hold - Reconstruction Filter
+
+Text:
+Unicode
+Text compression
+Huffman coding - Static model - Adaptive model - Semi-adaptive model
+Arithmetic coding - Lempel Ziv coding 
+
+Sound:
+PCM - Differential Pulse Code Modulation (DPCM)
+Adaptive Differential Pulse Code Modulation (ADPCM)
+Linear Predictive Coding (LPC)
+Code-excited LPC (CELPC)
+Perceptual Coding - Frequency Masking - Critical Band - Beating phenomenon - Temporal Masking - 
+MPEG Audio Compression 
+
+Image: 
+RGB, CMYK, YCbCr, HSV
+Chroma Sub sampling
+JPEG Standard - Energy Compaction - Fourier Transform - Principal Component Analysis (PCA) - DCT - Quantization
+Entropy Encoding - DC RLC - AC DPCM - Zigzag Order - Huffman coding for AC/DC
+JPEG2000 Standard - Discrete Wavelet Transform - Quantization - EBCOT 
+
+Video:
+Component video - Composite video - SVideo
+Progressive scan - Interlaced scan 
+Video Compression - Motion estimation - Motion vector - Motion Compensation - IFrame PFrame BFrame 
+MPEG 1
+MPEG 2 - Alternative scan - Base Layer - Enhancement layer - SNR Scalability - Spatial Scalability - Temporal Scalability 
+MPEG 4 - VOP - AVO
+
+Multimedia network:
+User requirement - Network requirement 
+LAN - FDDI
+WAN - PSTN - ISDN - Broadband IDSN - ATM - CBR VBR ABR UBR - Wireless network - FEC ARQ
+
+Synchronization:
+Intra object - Inter object - Live sync - Synthetic sync - Lip sync - Pointer sync
+Reference model - Media Layer - Stream Layer - Object layer - Specification layer
+Synchronization specification - Transport of Sync Specification - Location of Sync Specification
+Distributed environment 
+
+Quality of Service: 
+Chất lượng khi: Conversation Voice - Voice Phone
+Queueing and Scheduling: FIFO - Priority Scheduling - Weighted Fair Queuing (WFQ) - Round Robin
+Congestion Control & Queue Discard: Tail Drop - Random Early Discard - Weighted Random Early Discard - Tricolor Marking - PLP - Single rate TCM (CBS EBS) - Two rate TCM (CIR PIR)
+Best Effort 
+Integrated Services: Traffic Specification (TSPEC) - Request Specification (RSPEC) - Admission Control - Token Bucket Filter
+Soft state - RSVP - Fixed filter style - Wildcard filter style - Shared explicit style
+Differential Service - Per Hop Behavior
+
+Live Streaming:
+Real Time Multimedia Traffic - Real Time Transport Protocol (RTP) - Real Time Control Protocol  (RTCP)
+Forward Error Correction (FEC) - Interleaving - Receiver Based Repair
+Secure Real Time Transport Protocol (SRTP) - Secure RTCP (SRTCP) - MKI (Master Key Identifier)
+Real Time Streaming Protocol (RTSP) - Real Time Messaging Protocol (RTMP) - HTTP Live Streaming (HLS) - MPEG-DASH - WebRTC
+
+H.323:
+H.323 Terminal - H.323 Gateway - H.323 Gatekeeper
+H.323 Multipoint Control Unit (MCU) - Multipoint Controller -  Multipoint Processor
+H.225 Call Signaling - H.225 RSA
+H.245
+Session Initiation Protocol (SIP) - SIP User Agent - SIP Server - SIP back to back User Agent - SIP Gateway
+

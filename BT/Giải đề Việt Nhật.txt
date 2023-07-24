@@ -1,0 +1,15 @@
+Một GOP sử dụng lấy mẫu phụ thuộc sắc độ (chroma subsampling) 4:2:0 với độ
+phân giải 240 × 160 cho thông tin độ chói. Biết rằng mỗi GOP chứa 2 frame 1, 3 frame P và
+6 frame B với tỷ lệ nén trung bình tương ứng là 10, 20, và 40 với từng loại frame. Giả thiết
+rằng thông tin nén đã bao gồm các phần header, hãy cho biết kích thước của một GOP là?
+
+Giải:
+Để tính toán kích thước của một GOP, chúng ta cần biết kích thước của mỗi frame trước khi nén. Với lấy mẫu phụ thuộc sắc độ (chroma subsampling) 4:2:0, mỗi pixel sẽ chiếm 12 bit. Do đó, kích thước của mỗi frame trước khi nén sẽ là:
+frame_size = 240 * 160 * 12 / 8 # Chia cho 8 để chuyển từ bit sang byte
+Sau đó, chúng ta có thể tính kích thước của mỗi loại frame sau khi nén:
+I_frame_size = frame_size / 10
+P_frame_size = frame_size / 20
+B_frame_size = frame_size / 40
+Cuối cùng, chúng ta có thể tính kích thước của một GOP bằng cách nhân kích thước của mỗi loại frame với số lượng frame tương ứng:
+GOP_size = 2 * I_frame_size + 3 * P_frame_size + 6 * B_frame_size
+=> Kết quả là 28800

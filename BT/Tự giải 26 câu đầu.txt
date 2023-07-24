@@ -1,0 +1,106 @@
+I) Digitalize:
+1) A band-limited signal X(t) is one whose Fourier Transform is non-zero on only a finite interval of the frequency axis. 
+There exists a positive number B such that X(f) is non-zero only if -B≤f≤B. B is called the signal bandwidth.
+
+2) Nyquist theorem: If x(t) is a band-limited signal containing no frequencies higher than B. A sufficient sampling rate is 2B or anything larger. 2B is called the Nyquist rate.
+Nyquist frequency is the maximum frequency that can be accurately represented or reconstructed in a digitized signal, determined by half the sampling rate. Frequencies above the Nyquist frequency can cause aliasing, resulting in distortion in the reconstructed signal.
+
+=> Tức là để reconstructor analog signal từ sample thì sampling rate ít nhất là gấp đôi maximum frequency component của signal. Và Nyquist frequency là 1 nửa của sampling rate
+
+3) An Anti-Aliasing Filter (AAF) is often a low-pass filter used in signal processing to prevent or reduce the effects of aliasing by removing the selected higher frequency components from the source signal. 
+
+4) If Vmax is the maximum positive and negative signal amplitude and n is the number of binary bits used, then the quantization interval q is defined as: q = Vmax/2^n 
+Quantization error is around +-q/2, so if we use more bit n to present signal, q will be small and the signal has lower noise. 
+
+5) When we use fewer bits to present analog signal, quantization interval q = Vmax/2^n will be larger. The difference between the actual signal amplitude and the corresponding nomial amplitude is larger, which lead to the bigger quantization noise (+-q/2)
+
+6) Run-length coding is a simple form of data compression which is used to reduce the size of repetitive sequences of data. 
+Example: AAAABBBCCDAA -> 4A3B2C1D2A
+It works by replacing consecutive repeated characters with a count of the repetition and the repeated character itself. This encoding method is particularly effective when there are long sequences of repeated data.
+
+7*) Huffman coding: A statistical compression technique, which needs a probability distribution as an input. The method for determining the probabilities is called a model, which can be static, semi-adaptive or adaptive.
+- A static model is a fixed model that is known by both the compressor and decompressor.
+- A semi-adaptive model is a fixed model that is constructed from the data to be compressed.
+- An adaptive model changes during the compression.
+Example: consider the following text BCAACADBDCADAEEEABACDBACADCBADABEABEAAA
+A: 15, B: 8, C: 6, D: 6, E: 5 
+=> Vẽ cây ez
+
+8*) Lempel-Ziv Coding relies on reoccurring patterns to save data space. For example, every character is stored with 8 binary bit in the extended ASCII code. Lempel-Ziv may extend the library to 9-12 bits per character. The new symbols are made up of combination of symbols occurred previously in the string.
+Therefore, Lempel-Ziv doesn't compress well with short, diverse strings
+Example: ABCBCABCABCD
+Trình bày trong slide
+
+II) Image
+9) The coefficients is the number that represents the contribution of each of 64 base cosine waves blocks to the whole image.
+- DC coefficient is the coefficient with zero frequency in both dimensions
+- AC coefficients are the remaining coefficients with non-zero frequences. AC coefficient is made up of (run length, size) (amplitude). Run length is the number of zeros in the run. Size is the number of bits used to encode amplitude.
+In the transformed image, DC coefficient is the top left block (F(0, 0)), AC coefficient are all the other blocks (i.e., F(u,v) (u,v≠0))
+
+=> Tức coefficient là mức độ ảnh hưởng của đồ thị cosin base64 tác động tới toàn image. Càng lớn thì đồ thị càng có giá trị.
+
+10) Eye is more sensitive to color pattern in low spatial frequencies. In the human eyes, if the 2 colors are too near, the eyes can not distinguish.
+Human eyes are not so good to distinguish different strengths in high frequency brightness. This means that the strength of higher frequencies can be reduced, without changing the appearance of the image.
+
+11) Block preparation is the process of dividing an image into smaller blocks before applying compression technique. The size of blockes is chosen based on the compression algorithm, common sizes are 8x8, 16x16 or 32x32 pixels. Processing is done on each block separately.
+For example, using 8x8 block size, if an image is of 640x480 size, then there will be 640/8 = 80 blocks in the horizontal direction, and 480/8 = 60 blocks in the vertical direction.
+
+12) All of the quantized coefficients from DCT are ordered into the zigzag sequence. It places low frequency coefficients (which are more likely to be non-zero) before high-frequency coefficients. By using zigzag scan, we get a huge list of zero in a row, which is easily compressed using run length coding or Huffman coding. 
+
+=> Ý 2 hay
+
+13) DCT transforms a signal of image from the spatial domain to the frequency domain. It is similar to the Fast Fourier Transform (FFT) but can approximate lines well with fewer coefficients. This algorithm enables fast calculations of the DCT coefficients, making it practical for real-time applications with limited computational resources. 
+The DCT has the property of energy compaction allowing for efficient compression. For most images, much of the signal energy lies at low frequencies, which appear in the upper left corner of the DCT, so it can neglect the lower right value with little visible distortion. It can give a higher compression rate, for the same image quality.
+
+14) If we have an image with lots of high frequency information pixels, it might get significantly compressed. The image might get worse and information loss can occur
+
+15) Differential coding is a technique to encode data as the differences or changes between consecutive values, rather than encoding the absolute values themselves. To reduce the amount of information needed to be transmitted, it may takes advantage of the correlation or predictability between consecutive data points by encoding the differences between the signal itself and its prediction.
+
+III) Audio
+16) Critical bandwidth is the ranges of frequencies within which our ears can hear sounds as separate from each other. If two sounds fall within the critical bandwidth, we can tell them apart. But if the sounds are too close in frequency and fall outside the critical bandwidth, our ears may blend them together.
+The critical bandwidth is not the same for all frequencies. At lower frequencies, the critical bandwidth is wider, so our ears can perceive a wider range of frequencies as separate sounds. When the frequency increases, the critical bandwidth becomes narrower. This means that at higher frequencies, sounds need to be further apart in frequency for us to hear them as separate.
+
+17*) Frequency masking: when multiple signals are present, a strong signal may reduce the level of sensitivity of the ear to other signals which are near to it in frequency. 
+=> Hình kèm mô tả trong slide
+
+18) Temporal masking: After the ear hears a loud sound, it takes a further short time before it can hear a quieter sound.
+Implication: During that time, signals whose amplitudes are less than the decay envelope will not be heard and hence need not be transmitted
+
+19) 
+- Encoder 
+• Previous digitized sample is held in the register (R).
+• The DPCM signal is computed by subtracting the current content (R) from the new output by the ADC.
+• The register value is then updated before transmission.
+- Decoder
+• Decoder simply adds the previous register contents (PCM) with the DPCM.
+• Since ADC will have noise there will be cumulative errors in the value of the register signal
+
+20) Adaptive DPCM saves bandwidth by varying the number of bits used for the difference signal depending on its amplitude.
+Larger step-size is used to encode differences between high frequency samples and smaller step-size for differences between low frequency samples.
+
+21) Sub-band coding with ADPCM is a technique that improves sound quality using the same amount of data (compare with PCM). It divides the audio signal into frequency bands and applies a compression method ADPCM to each band. ADPCM encodes the differences between consecutive samples instead of the absolute values. This approach reduces the number of bits needed to represent the audio. By allocating more bits to important frequency bands and fewer bits to less critical ones(varying number of bits), sub-band coding with ADPCM achieves better sound quality at the same bit rate.
+
+Exapmle bit rates used for the lower and higher subbands: 48 kbps and 16 kbps
+It can be used in some applications as voice coding. It help to reduce file size and improve sound quality.
+
+=> Tức là sub-band Coding: chia audio signal thành các frequency band hay subband, vc này thực hiện ez bằng cách cho nó đi qua các filter bank.
+Còn ADPCM là cái giảm lượng bit cần để biểu diễn thôi.
+
+IV) Video
+22) I-frame: Intra-coded frame. I-frames are encoded without reference to any other frames. Each frame is treated as a separate picture and the Y, Cb and Cr matrices are encoded separately using JPEG.
+P-frame: One directional motion prediction from a previous frame. The encoding of the P-frame is relative to the contents of either a preceding Iframe or a preceding P-frame. P-frames are encoded using a combination of motion estimation and motion compensation
+B-frame: Bi-directional motion prediction from a previous or future frame. It contains the information of how a specific object move across a small
+portion of the screen
+=> We generate the I frame then the P frame, then based on and how the objects moved, we can construct the B frame.
+
+23) The references between the different types of frames are realized by a process called motion estimation. The correlation between two frames in terms of motion is represented by a motion vector. Good estimation of the motion vector results in higher compression ratios and better quality of the coded video sequence.
+
+Video motions are often complex. A simple “shifting in 2D” is not a perfectly suitable description of the motion in the actual scene, causing so called prediction errors. Since the estimation is not exact, additional information must also be sent to indicate any small differences between the predicted and actual positions of the moving segments involved. This is known as the motion compensation.
+
+24) The number of frames/pictures between successive I-frames is known as a group of pictures (GOP). Typical values of GOP are 3 – 12.
+For fast moving video motion, estimation will not work effectively due to interlaced effect or aliasing,... Hence Bframes (Bi directional) can be used. Their contents are predicted using the past and the future frames to create the high level of compression.
+
+25) Moving JPEG is a video compression format in which each frame of video sequence is compressed separately as a JPEG image resulting in relatively large file sizes but preserving high image quality.
+
+26) The VOP carries the shape, motion and texture information that defines the video object at a particular instant in time. Each audio and video object has a separate object descriptor associated with it, which allows the object to be manipulated by the viewer prior to it being decoded and played out
+
